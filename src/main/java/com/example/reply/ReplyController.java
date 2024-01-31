@@ -45,9 +45,9 @@ public class ReplyController {
 		
 		Post post = postService.getPost(postId);
 		SiteUser siteUser = userService.getUser(principal.getName());
-		replyService.create(post, replyForm.getContent(), siteUser);
+		Reply reply = replyService.create(post, replyForm.getContent(), siteUser);
 		
-		return String.format("redirect:/post/detail/%s", postId);
+		return String.format("redirect:/post/detail/%s#reply_%s", postId, reply.getId());
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -78,7 +78,7 @@ public class ReplyController {
 		}
 		replyService.modify(reply, replyForm.getContent());
 		
-		return String.format("redirect:/post/detail/%s", reply.getPost().getId());
+		return String.format("redirect:/post/detail/%s#reply_%s", reply.getPost().getId() , reply.getId());
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -100,6 +100,6 @@ public class ReplyController {
 		SiteUser siteUser = userService.getUser(principal.getName());
 		replyService.vote(reply, siteUser);
 		
-		return String.format("redirect:/post/detail/%s", reply.getPost().getId());
+		return String.format("redirect:/post/detail/%s#reply_%s", reply.getPost().getId() , reply.getId());
 	}
 }

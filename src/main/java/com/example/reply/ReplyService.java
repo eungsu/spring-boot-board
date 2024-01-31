@@ -18,14 +18,14 @@ public class ReplyService {
 	private final ReplyRepository replyRepository;
 	private final ReplyVoterRepository replyVoterRepository;
 	
-	public void create(Post post, String content, SiteUser siteUser) {
+	public Reply create(Post post, String content, SiteUser siteUser) {
 		Reply reply = new Reply();
 		reply.setContent(content);
 		reply.setCreatedDate(LocalDateTime.now());
 		reply.setPost(post);
 		reply.setAuthor(siteUser);
 		
-		replyRepository.save(reply);
+		return replyRepository.save(reply);
 	}
 
 	public Reply getReply(Integer replyId) {
