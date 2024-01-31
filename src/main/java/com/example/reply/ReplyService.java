@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class ReplyService {
 
 	private final ReplyRepository replyRepository;
+	private final ReplyVoterRepository replyVoterRepository;
 	
 	public void create(Post post, String content, SiteUser siteUser) {
 		Reply reply = new Reply();
@@ -45,5 +46,18 @@ public class ReplyService {
 	
 	public void delete(Reply reply) {
 		replyRepository.delete(reply);
+	}
+	
+	public void vote(Reply reply, SiteUser siteUser) {
+		ReplyVoter replyVoter = new ReplyVoter();
+		replyVoter.setReply(reply);
+		replyVoter.setVoter(siteUser);
+		
+		Optional<ReplyVoter> optionReplyVoter = replyVoterRepository.findByReplyAndVoter(reply, siteUser);
+		if (optionReplyVoter.isEmpty()) {
+			replyVoterRepository.save(replyVoter);
+		} else {
+			replyVoterRepository.delete(optionReplyVoter.get());
+		}
 	}
 }

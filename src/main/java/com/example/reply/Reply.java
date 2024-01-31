@@ -1,7 +1,7 @@
 package com.example.reply;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.Set;
 
 import com.example.post.Post;
 import com.example.user.SiteUser;
@@ -18,11 +18,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "replies")
-@Getter @Setter @ToString
+@Getter @Setter
 public class Reply {
 
 	@Id
@@ -43,7 +42,7 @@ public class Reply {
 	private Post post;
 	
 	@OneToMany(mappedBy = "reply", cascade = CascadeType.REMOVE)
-	private List<ReplyVoter> replyVoters;
+	private Set<ReplyVoter> replyVoters;
 
 	
 }

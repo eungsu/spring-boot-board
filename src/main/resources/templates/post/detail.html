@@ -35,6 +35,10 @@
 				</tbody>
 			</table>
 			<div>
+				<a th:href="@{|/post/vote/${post.id}|}" class="recommed btn btn-sm btn-outline-secondary">
+					추천
+					<span class="badge rounded-fill bg-success" th:text="${#lists.size(post.postVoters)}"></span>
+				</a>
 				<a th:href="@{|/post/modify/${post.id}|}" class="btn btn-sm btn-outline-secondary"
                 	sec:authorize="isAuthenticated()"
                 	th:if="${#authentication.getPrincipal().getUsername() == post.author.username}"
@@ -58,6 +62,10 @@
 						</div>
 						<div>
 							<div>
+								<a th:href="@{|/reply/vote/${reply.id}|}" class="recommed btn btn-sm btn-outline-secondary">
+									추천
+									<span class="badge rounded-fill bg-success" th:text="${#lists.size(reply.replyVoters)}"></span>
+								</a>
 								<a th:href="@{|/reply/modify/${reply.id}|}" class="btn btn-sm btn-outline-secondary"
 				                	sec:authorize="isAuthenticated()"
 				                	th:if="${#authentication.getPrincipal().getUsername() == reply.author.username}"
@@ -94,6 +102,19 @@
 			let result = confirm("삭제하시겠습니까?");
 			if (result) {
 				location.href = event.target.getAttribute('href');
+			}
+		});
+	});	
+	document.querySelectorAll(".recommed ").forEach((element) => {
+		element.addEventListener('click', (event) => {
+			event.preventDefault();
+			let result = confirm("추천하시겠습니까?");
+			if (result) {
+				let href = event.target.getAttribute('href');
+				if (!href) {
+					href = event.target.parentElement.getAttribute('href');
+				}
+				location.href = href;
 			}
 		});
 	});	

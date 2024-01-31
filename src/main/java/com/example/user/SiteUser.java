@@ -5,7 +5,6 @@ import java.util.List;
 import com.example.post.PostVoter;
 import com.example.reply.ReplyVoter;
 
-import groovy.transform.ToString;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,7 +19,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name="users")
-@Getter @Setter @ToString
+@Getter @Setter
 public class SiteUser {
 
 	@Id

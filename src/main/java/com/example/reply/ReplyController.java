@@ -92,4 +92,14 @@ public class ReplyController {
 		
 		return String.format("redirect:/post/detail/%s", reply.getPost().getId());
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(path = "/vote/{replyId}")
+	public String vote(@PathVariable(name = "replyId") Integer replyId, Principal principal) {
+		Reply reply = replyService.getReply(replyId);
+		SiteUser siteUser = userService.getUser(principal.getName());
+		replyService.vote(reply, siteUser);
+		
+		return String.format("redirect:/post/detail/%s", reply.getPost().getId());
+	}
 }

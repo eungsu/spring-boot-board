@@ -2,6 +2,7 @@ package com.example.post;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.example.reply.Reply;
 import com.example.user.SiteUser;
@@ -17,11 +18,10 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "posts")
-@Getter @Setter @ToString
+@Getter @Setter
 public class Post {
 
 	@Id
@@ -42,8 +42,7 @@ public class Post {
 	
 	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
 	private List<Reply> replies;
-
 	
 	@OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-	private List<PostVoter> postVoters;
+	private Set<PostVoter> postVoters;
 }

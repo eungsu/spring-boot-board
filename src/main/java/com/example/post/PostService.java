@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class PostService {
 
 	private final PostRepository postRepository;
+	private final PostVoterRepository postVoterRepository;
 	
 	public Page<Post> getPosts(int page) {
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(List.of(Sort.Order.desc("createdDate"))));
@@ -55,5 +56,18 @@ public class PostService {
 
 	public void delete(Post post) {
 		postRepository.delete(post);
+	}
+	
+	public void vote(Post post, SiteUser siteUser) {
+		PostVoter postVoter = new PostVoter();
+		postVoter.setPost(post);
+		postVoter.setVoter(siteUser);
+		
+		Optional<PostVoter> optionPostVoter = postVoterRepository.findByPostAndVoter(post, siteUser);
+		if (optionPostVoter.isEmpty()) {
+			postVoterRepository.save(postVoter);
+		} else {
+			postVoterRepository.delete(optionPostVoter.get());
+		}
 	}
 }
